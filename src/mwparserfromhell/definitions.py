@@ -89,16 +89,16 @@ PARSER_BLACKLIST = [
 
 INVISIBLE_TAGS = [
     # https://www.mediawiki.org/wiki/Parser_extension_tags @ 2020-12-21
-    "categorytree",
-    "gallery",
-    "graph",
-    "imagemap",
-    "inputbox",
-    "math",
-    "score",
-    "section",
-    "templatedata",
-    "timeline",
+    "categorytree",  # provides a dynamic view of the wiki's category structure as a tree
+    "gallery",  # A gallery displays several pictures in an array or similar layout.
+    "graph",  # The Graph extension allows a ‎<graph> tag to describe data visualizations such as bar charts, pie charts, timelines, and histograms (demo) in a JSON format
+    "imagemap",  # image map is a list of coordinates in a specific image, which hyperlinks areas of the image to multiple destinations
+    "inputbox",  # The InputBox extension adds already created HTML forms to wiki pages
+    # "math", # always include math
+    # "score",  # The Score extension allows the rendering of musical scores as PNG images
+    "section",  # ???
+    "templatedata",  # https://www.mediawiki.org/wiki/Extension:TemplateData
+    # "timeline",  # https://en.wikipedia.org/wiki/Help:EasyTimeline_syntax include, as contains useful information
 ]
 
 # [wikimedia/mediawiki.git]/includes/parser/Sanitizer.php @ 95e17ee645

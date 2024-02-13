@@ -83,15 +83,15 @@ static const char *PARSER_BLACKLIST[] = {
     "hiero",
     "imagemap",
     "inputbox",
-    "math",
+    //"math",
     "nowiki",
     "pre",
     "score",
     "section",
-    "source",
+    //"source",
     "syntaxhighlight",
     "templatedata",
-    "timeline",
+    //"timeline",
     NULL,
 };
 // clang-format on

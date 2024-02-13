@@ -31,18 +31,18 @@ class Tag(Node):
     """Represents an HTML-style tag in wikicode, like ``<ref>``."""
 
     def __init__(
-        self,
-        tag,
-        contents=None,
-        attrs=None,
-        wiki_markup=None,
-        self_closing=False,
-        invalid=False,
-        implicit=False,
-        padding="",
-        closing_tag=None,
-        wiki_style_separator=None,
-        closing_wiki_markup=None,
+            self,
+            tag,
+            contents=None,
+            attrs=None,
+            wiki_markup=None,
+            self_closing=False,
+            invalid=False,
+            implicit=False,
+            padding="",
+            closing_tag=None,
+            wiki_style_separator=None,
+            closing_wiki_markup=None,
     ):
         super().__init__()
         self.tag = tag
@@ -72,12 +72,12 @@ class Tag(Node):
                 return self.wiki_markup + attrs + padding + separator
             close = self.closing_wiki_markup or ""
             return (
-                self.wiki_markup
-                + attrs
-                + padding
-                + separator
-                + str(self.contents)
-                + close
+                    self.wiki_markup
+                    + attrs
+                    + padding
+                    + separator
+                    + str(self.contents)
+                    + close
             )
 
         result = ("</" if self.invalid else "<") + str(self.tag)
@@ -288,13 +288,13 @@ class Tag(Node):
         raise ValueError(name)
 
     def add(
-        self,
-        name,
-        value=None,
-        quotes='"',
-        pad_first=" ",
-        pad_before_eq="",
-        pad_after_eq="",
+            self,
+            name,
+            value=None,
+            quotes='"',
+            pad_first=" ",
+            pad_before_eq="",
+            pad_after_eq="",
     ):
         """Add an attribute with the given *name* and *value*.
 
