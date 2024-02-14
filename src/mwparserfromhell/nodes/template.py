@@ -18,13 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from collections import defaultdict
 import re
+from collections import defaultdict
 
 from ._base import Node
+from .extras import Parameter
 from .html_entity import HTMLEntity
 from .text import Text
-from .extras import Parameter
 from ..utils import parse_anything
 
 __all__ = ["Template"]
@@ -32,6 +32,9 @@ __all__ = ["Template"]
 FLAGS = re.DOTALL | re.UNICODE
 # Used to allow None as a valid fallback value
 _UNSET = object()
+
+VALUESTOKEEP = ["val",  # https://en.wikipedia.org/w/index.php?title=Free_neutron_decay&action=edit
+                "math"]
 
 
 class Template(Node):
@@ -59,7 +62,7 @@ class Template(Node):
             yield param.value
 
     def __strip__(self, **kwargs):
-        if kwargs.get("keep_template_params"):
+        if kwargs.get("keep_template_params") or self.name in VALUESTOKEEP:
             parts = [param.value.strip_code(**kwargs) for param in self.params]
             return " ".join(part for part in parts if part)
         return None
@@ -154,7 +157,7 @@ class Template(Node):
     def _fix_dependendent_params(self, i):
         """Unhide keys if necessary after removing the param at index *i*."""
         if not self.params[i].showkey:
-            for param in self.params[i + 1 :]:
+            for param in self.params[i + 1:]:
                 if not param.showkey:
                     param.showkey = True
 
@@ -176,7 +179,7 @@ class Template(Node):
         If one exists, we should remove the given one rather than blanking it.
         """
         if self.params[i].showkey:
-            following = self.params[i + 1 :]
+            following = self.params[i + 1:]
             better_matches = [
                 after.name.strip() == name and not after.showkey for after in following
             ]
@@ -238,7 +241,7 @@ class Template(Node):
         return self.get(name)
 
     def add(
-        self, name, value, showkey=None, before=None, after=None, preserve_spacing=True
+            self, name, value, showkey=None, before=None, after=None, preserve_spacing=True
     ):
         """Add a parameter to the template with a given *name* and *value*.
 
