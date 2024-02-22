@@ -62,7 +62,7 @@ def try_remove_obj(obj, section):
 if __name__ == '__main__':
 
     site = pywikibot.Site('en', 'wikipedia')  # The site we want to run our bot on
-    page = pywikibot.Page(site, 'Complex_number')
+    page = pywikibot.Page(site, 'Free_neutron_decay')
     wikicode = mwparserfromhell.parse(page.text)
 
     section_text = []
@@ -80,4 +80,3 @@ if __name__ == '__main__':
         section_text.append(re.sub(re_rm_magic, "", section_no_code))
 
     print("\n\n".join(section_text))
-    print(section_text[0])

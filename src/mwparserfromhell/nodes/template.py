@@ -25,6 +25,7 @@ from ._base import Node
 from .extras import Parameter
 from .html_entity import HTMLEntity
 from .text import Text
+from .utils import parse_val_string
 from ..utils import parse_anything
 
 __all__ = ["Template"]
@@ -62,7 +63,20 @@ class Template(Node):
             yield param.value
 
     def __strip__(self, **kwargs):
+        # https://en.wikipedia.org/wiki/Template:Val
+        # {{val|3.7|e=10}} -> 3.7e10
+        # {{val|877.75|0.50|0.44|u=[[second|s]]}} -> 877.75+0.50−0.44 s
+        # {{val|879.6|0.8|u=s}} -> 879.6±0.8 s
+        # {{val|4|ul=m2}} -> 4 m²
+        # {{val|5.4|u=[[kg]]&sdot;[[meter|m]]/s<sup>2</sup>}} -> 5.4 kg·m/s²
+        # {{val|11|x|33}} -> 11×33
+        # {{val|e=5|ul=m}} -> 10e5 m
+        # {{val|1234567.1234567|fmt=commas}} -> 1,234,567.1234567 (can leave as is)
         if kwargs.get("keep_template_params") or self.name in VALUESTOKEEP:
+            parsed_string = parse_val_string(str(self))
+            if parsed_string != str(self):  # string could be parsed
+                return parsed_string
+
             parts = [param.value.strip_code(**kwargs) for param in self.params]
             return " ".join(part for part in parts if part)
         return None
